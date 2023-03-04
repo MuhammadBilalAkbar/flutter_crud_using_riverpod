@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_crud_using_riverpod/Models/UserModel.dart';
-import 'package:flutter_crud_using_riverpod/widgets/with_stateful.dart';
-import 'package:flutter_crud_using_riverpod/widgets/with_stateless.dart';
-import 'package:flutter_crud_using_riverpod/widgets/with_widgetref.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'Models/UserModel.dart';
+import 'widgets/with_stateful.dart';
+import 'widgets/with_stateless.dart';
+import 'widgets/with_widgetref.dart';
 
 import 'my_app.dart';
 

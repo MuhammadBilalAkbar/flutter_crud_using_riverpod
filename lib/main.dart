@@ -5,8 +5,6 @@ import 'widgets/with_stateful.dart';
 import 'widgets/with_stateless.dart';
 import 'widgets/with_widgetref.dart';
 
-import 'my_app.dart';
-
 // Providers =>
 // WidgetRef -> helps us to talk from a widget to a provider
 // ProviderRef -> allows us to talk from a provider to another provider

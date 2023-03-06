@@ -3,22 +3,6 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final counterStateProvider = StateProvider<int>(
-  (ref) => 0,
-);
-
-// If you use StateNotifier, you have to use StateNotifierProvider.
-// If you use StateProvider, you have to use Provider.
-class Counter extends StateNotifier<int> {
-  Counter() : super(0);
-
-  void increment() => state++;
-}
-
-final counterProvider = StateNotifierProvider(
-  (ref) => Counter(),
-);
-
 class NumberNotifier extends StateNotifier<List<String>> {
   NumberNotifier() : super(['number 99', 'number 20']);
 
@@ -55,7 +39,6 @@ class HomePage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final value = ref.watch(counterStateProvider);
     final numbers = ref.watch(numbersProvider);
     return Scaffold(
       appBar: AppBar(
@@ -65,27 +48,28 @@ class HomePage extends ConsumerWidget {
         child: Center(
           child: Column(
             children: numbers
-                .map((e) => GestureDetector(
-                      onTap: () {
-                        ref.watch(numbersProvider.notifier).remove(e);
-                      },
-                      onLongPress: () {
-                        ref.watch(numbersProvider.notifier).update(
-                              e,
-                              '$e ${Random().nextInt(100)}',
-                            );
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Text(e),
-                      ),
-                    ))
+                .map(
+                  (e) => GestureDetector(
+                    onTap: () {
+                      ref.watch(numbersProvider.notifier).remove(e);
+                    },
+                    onLongPress: () {
+                      ref.watch(numbersProvider.notifier).update(
+                            e,
+                            '$e ${Random().nextInt(100)}',
+                          );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(e),
+                    ),
+                  ),
+                )
                 .toList(),
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        // onPressed: () => ref.read(counterStateProvider.state).state++,
         onPressed: () {
           ref
               .watch(numbersProvider.notifier)

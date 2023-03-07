@@ -75,9 +75,9 @@
 
 **The Structured Main Content**
 1. Different Types of Providers
-<br/> WidgetRef -> Helps us to talk from a widget to a provider
+<br/> WidgetRef   -> Helps us to talk from a widget to a provider
 <br/> ProviderRef -> Allows us to talk from a provider to another provider
-<br/> Ref -> Super class to the ProviderRef and WidgetRef
+<br/> Ref         -> Super class to the ProviderRef and WidgetRef
 <br/>For all types, put final and then give name of the type of provider. ref allows us to talk with other providers.
 <br/> There are multiple types of providers for multiple different use cases. With all of these providers available, it is sometimes difficult to understand when to use one provider type over another. Use the table below to choose a provider that fits what you want to provide to the widget tree.
 

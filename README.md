@@ -70,8 +70,8 @@
 1. A simple way to access state from anywhere in your application while robust and testable.
 2. Main Points
     - There are six types of Riverpod providers. The most common `StateNotifier` & `StateNotifierProvider` is used in this project with random numbers to create, edit or delete them.
-    - _[...]_
-3. _[Out of 1. & 2. create 2-3 sentences that could be later used for recording the introduction of this video lesson]_
+    - It can be used to replace `Provider` package or can be used with it.
+3. It gives access to state from anywhere. It can also be used with the `Provider` package.
 
 **The Structured Main Content**
 1. Different Types of Providers
@@ -105,7 +105,103 @@
 <br/>If you have stream and you want to get rid of streamBuilder and asyncSnapshots.
 - Run `dart pub get flutter_riverpod` to add this dependency in your `pubspec.yaml` file. Import `import 'package:flutter_riverpod/flutter_riverpod.dart';` where you want to use in your project.
 - For this video:
-    - There is no need of setup for Android and iOS.
-    - _[2. Pick Image From Gallery]_
-    - _[3. Pick Image From Camera]_
-    - _[4. Persist Images To Local Storage]_
+  - There is no need of setup for Android and iOS.
+  - In `main.dart` file, child of `runApp` is wrapped with `ProviderScope` to globally use and access all states in application.
+
+```dart
+void main() => runApp(
+      const ProviderScope(child: MyApp()),
+    );
+```
+  - In `my_app.dart`, theme settings of app is done here.
+  - In `home_page.dart`, class `NumberNotifier` is extending `StateNotifier`. `StateNotifierProvider` is a complex state object that is immutable except through an interface. It returns a subclass of `StateNotifier`. Constructor is defined here which is overriding the class StateNotifier. It is initialized with list of Strings as mentioned in first line of this code.
+<br/> It has method of adding, removing and updating a number string.
+<br/> For add method, it simply adds the new random number in the state which is List of Strings.
+<br/> For remove method, it checks the specific number string which is pressed by user in the List of Strings if there is any element which is not equal to the pressed number. If that is the case, keep them in state and delete all other numbers which are equal to the number which is pressed.
+<br/> For update method, `updatedList` is defined. It checks for every number string which is present in the state. If the number string which is pressed is present in the state then add the updated new number in the updated list, else add the number which is pressed.
+
+```dart
+class NumberNotifier extends StateNotifier<List<String>> {
+  NumberNotifier() : super(['number 99', 'number 20']);
+
+  void add(String number) {
+    state = [...state, number];
+    // Three dots mean add all the objects and add this new number also
+  }
+
+  void remove(String number) {
+    state = [...state.where((element) => element != number)];
+  }
+
+  void update(String number, String updatedNumber) {
+    final updatedList = <String>[];
+    for (var i = 0; i < state.length; i++) {
+      if (state[i] == number) {
+        updatedList.add(updatedNumber);
+      } else {
+        updatedList.add(state[i]);
+      }
+    }
+    state = updatedList;
+  }
+}
+```
+Then `numbersProvider` is initialized. It accepts StateNotifier and state(List of String in this case).
+```dart
+final numbersProvider = StateNotifierProvider<NumberNotifier, List<String>>(
+  (ref) => NumberNotifier(),
+);
+```
+The `ConsumerWidget`. `ref.watch(numbersProvider)` is used to watch changes in the `numbersProvider` which of List of String.
+```dart
+class HomePage extends ConsumerWidget {
+  const HomePage({Key? key, required this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final numbers = ref.watch(numbersProvider);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: SingleChildScrollView(
+        child: Center(
+          child: Column(
+            children: numbers
+                .map(
+                  (e) => GestureDetector(
+                    onTap: () {
+                      ref.watch(numbersProvider.notifier).remove(e);
+                    },
+                    onLongPress: () {
+                      ref.watch(numbersProvider.notifier).update(
+                            e,
+                            '$e ${Random().nextInt(100)}',
+                          );
+                    },
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Text(e),
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          ref
+              .watch(numbersProvider.notifier)
+              .add('number ${Random().nextInt(100)}');
+        },
+        tooltip: 'Add new number',
+        child: const Icon(Icons.add),
+      ),
+    );
+  }
+}
+```
+Every child of Column is wrapped with `GestureDetector`. `onTap` is used to remove the number. `onLongPress` updates the number.

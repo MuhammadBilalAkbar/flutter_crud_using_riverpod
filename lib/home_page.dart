@@ -50,15 +50,12 @@ class HomePage extends ConsumerWidget {
             children: numbers
                 .map(
                   (e) => GestureDetector(
-                    onTap: () {
-                      ref.watch(numbersProvider.notifier).remove(e);
-                    },
-                    onLongPress: () {
-                      ref.watch(numbersProvider.notifier).update(
-                            e,
-                            '$e ${Random().nextInt(100)}',
-                          );
-                    },
+                    onTap: () => ref.watch(numbersProvider.notifier).remove(e),
+                    onLongPress: () =>
+                        ref.watch(numbersProvider.notifier).update(
+                              e,
+                              '$e ${Random().nextInt(100)}',
+                            ),
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
                       child: Text(e),

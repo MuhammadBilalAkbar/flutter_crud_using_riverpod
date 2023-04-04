@@ -173,14 +173,15 @@ class NumberNotifier extends StateNotifier<List<String>> {
   overriding the class StateNotifier. It is initialized with list of Strings as mentioned in first
   line of this code.
 - It has method of adding, removing and updating a number string.
-- For add method, it simply adds the new random number in the state which is List of Strings.
-- For remove method, it checks the specific number string which is pressed by user in the
-  List of Strings if there is any element which is not equal to the pressed number. If that is the
-  case, keep them in state and delete all other numbers which are equal to the number which is
+- For `add` method, it simply adds the new random number in the state which is List of Strings.
+- For `remove` method, it checks the specific number string which is pressed by user in the
+  List of String if there is any element which is not equal to the pressed number. If that is the
+  case, keep them in state and delete all other numbers which are equal to the number that is
   pressed.
-- For update method, `updatedList` is defined. It checks for every number string which is
-  present in the state. If the number string which is pressed is present in the state then add the
-  updated new number in the updated list, else add the number which is pressed.
+- For `update` method, new empty list of String `updatedList` is initialized. It checks for every
+  number string which is present in the state. If the number string which is pressed is present in
+  the state then add the updated new number in the updated list, else add the number which is
+  pressed.
 
 Then **`numbersProvider` is initialized**:
 
